@@ -4,18 +4,22 @@ html {
   padding: 0;
   background: #f3f4f6;
   font-family: monospace;
+  overflow-x: hidden;
 }
 
 .main {
   background: #fff;
   margin: 0px 40px 0px 40px;
   border-radius: 10px;
+  animation: fadeIn 0.5s ease-in-out forwards;
 }
 .card-text-2 {
   margin-left: 10px;
+  
 }
 .float-right {
   float: right;
+  
 }
 .icon-btn-view {
   text-align: center;
@@ -41,6 +45,7 @@ html {
   outline: none;
   cursor: pointer;
   margin-right: 10px;
+  
 }
 
 .icon-btn-delete {
@@ -54,6 +59,7 @@ html {
   outline: none;
   cursor: pointer;
   margin-right: 10px;
+  
 }
 
 .container {
@@ -72,12 +78,14 @@ html {
 
 .card-body {
   padding: 10px 20px;
+  
 }
 
 .search-bar {
   padding: 20px;
   display: flex;
   flex-direction: row;
+  
 }
 
 #search-input {
@@ -89,9 +97,11 @@ html {
   width: 50%;
   margin-right: 1%;
   outline: none;
+  
 }
 #search-input:focus {
   border: 1px solid #3b82f6;
+  
 }
 
 #custom-select {
@@ -107,6 +117,23 @@ html {
   background: #fff;
   color: #000;
   cursor: pointer;
+  
+}
+
+#custom-select2{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  padding: 10px;
+  border: 1px solid #3b82f6;
+  border-radius: 10px;
+  font-size: 16px;
+  width: 100px;
+  outline: none;
+  background: #3b82f6;
+  color: #fff;
+  cursor: pointer;
+  
 }
 
 #create-button {
@@ -121,8 +148,61 @@ html {
   cursor: pointer;
   outline: none;
   margin-left: auto;
+  
 }
 
 #search-button:hover {
   background-color: #3b82f6;
+  
+}
+
+.sort-options {
+  position: absolute;
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 16px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+.sort-options-button {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #3b82f6;
+  border-radius: 10px;
+  font-size: 16px;
+  width: 100%;
+  outline: none;
+  color: #000;
+  
+}
+
+.btn-active {
+  background-color: #3b82f6;
+  padding: 10px;
+  border: 1px solid #3b82f6;
+  border-radius: 10px;
+  font-size: 16px;
+  width: 100%;
+  outline: none;
+  color: #fff;
 }

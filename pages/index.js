@@ -1,11 +1,15 @@
 import { useRouter } from "next/router";
 import data from "/data/surveys_mock.json";
+import React, { useState } from "react";
+import Card from "./components/card";
 import {
   HiOutlineEye,
   HiOutlinePencil,
   HiOutlineTrash,
   HiPlus,
   HiOutlineAdjustments,
+  HiChevronDoubleUp,
+  HiChevronDoubleDown,
 } from "react-icons/hi";
 
 export default function Home() {
@@ -16,16 +20,85 @@ export default function Home() {
   const surveys = data.Surveys;
   const questions = data.Questions;
   const options = data.Options;
+  const [select, setSelect] = useState(false);
+  const [sortData, setSortData] = useState("newest");
+  const [searchQuery, setSearchQuery] = useState("");
+  const filteredQuestions = questions.filter((question) => {
+    const survey = surveys.find((survey) => survey.id === question.survey_id);
+    const searchString = `${question.question.toLowerCase()} ${survey.create_by.toLowerCase()} ${survey.created_at.toLowerCase()}`;
+    return searchString.includes(searchQuery.toLowerCase());
+  });
+
   return (
     <div className="main">
-      <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Search..." />
-        <button id="custom-select">
-          <span>
-            <HiOutlineAdjustments />
-          </span>
-          Sort
-        </button>
+      <div className="search-bar">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        {select === false ? (
+          <div className="dropdown">
+            <button id="custom-select" onClick={() => setSelect(!select)}>
+              <span>
+                <HiChevronDoubleDown />
+              </span>
+              Sort
+            </button>
+            {select && (
+              <div className="sort-options">
+                <button onClick={() => setSortData("newest")}>Newest</button>
+                <button onClick={() => setSortData("oldest")}>Oldest</button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="dropdown">
+            <button id="custom-select2" onClick={() => setSelect(!select)}>
+              <span>
+                <HiChevronDoubleUp />
+              </span>
+              Close
+            </button>
+            {select && (
+              <div className="sort-options">
+                {sortData === "newest" ? (
+                  <>
+                    <button
+                      className="btn-active"
+                      onClick={() => setSortData("newest")}
+                    >
+                      Newest
+                    </button>
+                    <button
+                      className="sort-options-button"
+                      onClick={() => setSortData("oldest")}
+                    >
+                      Oldest
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="sort-options-button"
+                      onClick={() => setSortData("newest")}
+                    >
+                      Newest
+                    </button>
+                    <button
+                      className="btn-active"
+                      onClick={() => setSortData("oldest")}
+                    >
+                      Oldest
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
         <button id="create-button" onClick={navigateToCreate}>
           <span>
             <HiPlus />
@@ -33,41 +106,49 @@ export default function Home() {
           Create Survey
         </button>
       </div>
-      {questions.map((question) => {
-        const survey = surveys.find(
-          (survey) => survey.id === question.survey_id
-        );
-        return (
-          <div key={question.id} className="container">
-            <div className="card-body">
-              <h2 className="question-header">
-                {question.question}
-                <div className="float-right">
-                  <span>
-                    <button className="icon-btn-view">
-                      <HiOutlineEye />
-                    </button>
-                  </span>
-                  <span>
-                    <button className="icon-btn-edit">
-                      <HiOutlinePencil />
-                    </button>
-                  </span>
-                  <span>
-                    <button className="icon-btn-delete">
-                      <HiOutlineTrash />
-                    </button>
-                  </span>
-                </div>
-              </h2>
-              <p className="card-text-1">
-                Created at: {survey.created_at} PM
-                <span className="card-text-2">By {survey.created_at}</span>
-              </p>
-            </div>
-          </div>
-        );
-      })}
+      {sortData === "newest" ? (
+        <>
+          {filteredQuestions
+            .sort((a, b) => {
+              const surveyA = surveys.find(
+                (survey) => survey.id === a.survey_id
+              );
+              const surveyB = surveys.find(
+                (survey) => survey.id === b.survey_id
+              );
+              return (
+                new Date(surveyB.created_at) - new Date(surveyA.created_at)
+              );
+            })
+            .map((question) => {
+              const survey = surveys.find(
+                (survey) => survey.id === question.survey_id
+              );
+              return <Card question={question} survey={survey} />;
+            })}
+        </>
+      ) : (
+        <>
+          {filteredQuestions
+            .sort((a, b) => {
+              const surveyA = surveys.find(
+                (survey) => survey.id === a.survey_id
+              );
+              const surveyB = surveys.find(
+                (survey) => survey.id === b.survey_id
+              );
+              return (
+                new Date(surveyA.created_at) - new Date(surveyB.created_at)
+              );
+            })
+            .map((question) => {
+              const survey = surveys.find(
+                (survey) => survey.id === question.survey_id
+              );
+              return <Card question={question} survey={survey} />;
+            })}
+        </>
+      )}
     </div>
   );
 }

@@ -1,24 +1,38 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .header {
   padding: 20px;
   display: flex;
   flex-direction: row;
+  animation: fadeIn 0.5s ease-in-out forwards;
 }
 .main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  animation: fadeIn 0.5s ease-in-out forwards;
 }
 .main h1 {
   color: #4b5563;
+
 }
 .main label {
   color: #000;
   margin-left: auto;
+
 }
 .main p {
   color: #3b82f6;
   margin-left: 10px;
+
 }
 .card {
   box-shadow: 0 4px 8px 0 rgba(59, 130, 246, 0.2),
@@ -29,6 +43,7 @@
   flex-direction: column;
   padding: 40px;
   width: 70%;
+
 }
 
 #input {
@@ -42,6 +57,54 @@
   padding-left: 10px;
 }
 
+#inputsm {
+  position: relative;
+  margin-left: 10%;
+  width: 80%;
+  height: 40px;
+  border-color: #d1d5db;
+  border-style: solid;
+  border-width: 1px;
+  outline: none;
+  border-radius: 5px;
+}
+
+#psm {
+  position: relative;
+  margin-left: 10%;
+}
+
+#btnclose {
+  text-align: center;
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  background-color: #f3f4f6;
+  color: #6b7280;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+#btnclose2 {
+  text-align: center;
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  background-color: #f3f4f6;
+  color: #6b7280;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin-left: 100%;
+}
+
+.flexr {
+  display: flex;
+  flex-direction: row;
+}
+
 #back_btn {
   border: none;
   background: transparent;
@@ -52,9 +115,11 @@
   font-size: 16px;
   font-weight: bold;
   color: #3b82f6;
+
 }
 #back_icon {
   color: #4b5563;
+
 }
 
 .qbtn {
@@ -71,8 +136,22 @@
   margin: 20px;
 }
 
+.qbtn2 {
+  background-color: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+  width: 120px;
+  margin-top: 30px;
+}
+
 #plus_icon {
   color: #fff;
+
 }
 
 .btnflex {
@@ -93,6 +172,7 @@
   cursor: pointer;
   outline: none;
   margin: 20px;
+
 }
 .createbtn{
   display: flex;
