@@ -1,0 +1,109 @@
+.header {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.main h1 {
+  color: #4b5563;
+}
+.main label {
+  color: #000;
+  margin-left: auto;
+}
+.main p {
+  color: #3b82f6;
+  margin-left: 10px;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(59, 130, 246, 0.2),
+    0 6px 20px 0 rgba(59, 130, 246, 0.19);
+  background: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  width: 70%;
+}
+
+#input {
+  width: 100%;
+  height: 40px;
+  border-color: #d1d5db;
+  border-style: solid;
+  border-width: 1px;
+  outline: none;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+#back_btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  font-size: 16px;
+  font-weight: bold;
+  color: #3b82f6;
+}
+#back_icon {
+  color: #4b5563;
+}
+
+.qbtn {
+  display: flex;
+  flex-direction: row;
+  background-color: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+  margin: 20px;
+}
+
+#plus_icon {
+  color: #fff;
+}
+
+.btnflex {
+  display: flex;
+  flex-direction: row;
+}
+.cancelbtn {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #ec4899;
+  color: #ec4899;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+  margin: 20px;
+}
+.createbtn{
+  display: flex;
+  flex-direction: row;
+  background-color: #ec4899;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+  margin: 20px;
+}
