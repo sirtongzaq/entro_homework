@@ -5,84 +5,104 @@ import React, { useState } from "react";
 
 export default function Create() {
   const router = useRouter();
-  const [selectOption, setOption] = useState(false);
-  const [options, setOptions] = useState(["Option 1", "Option 2"]);
-  const [newOption, setNewOption] = useState("");
+  const [questionData, setQuestionData] = useState([]);
+  const [formData, setFormData] = useState({
+    title: "",
+    desc: "",
+    point: "",
+    questions: [],
+  });
 
-  const addOption = () => {
-    const newOptionText = `Option ${options.length + 1}`;
-    setOptions((prevOptions) => [...prevOptions, newOptionText]);
+  const addQuestion = () => {
+    const newQuestionText = `Question ${questionData.length + 1}`;
+    setQuestionData((prevQuestion) => [...prevQuestion, newQuestionText]);
     setFormData((prevData) => ({
       ...prevData,
-      options: [...prevData.options, ""],
-      score: [...prevData.score, ""],
+      questions: [
+        ...prevData.questions,
+        { question: "", options: ["", ""], score: ["", ""] },
+      ],
     }));
   };
 
-  const removeOption = (index) => {
-    setOptions((prevOptions) => prevOptions.filter((_, i) => i !== index));
+  const addOption = (questionIndex) => {
     setFormData((prevData) => {
-      const updatedOptions = [...prevData.options];
-      const updatedScore = [...prevData.score];
-      updatedOptions.splice(index, 1);
-      updatedScore.splice(index, 1);
+      const updatedQuestions = [...prevData.questions];
+      updatedQuestions[questionIndex].options.push("");
+      updatedQuestions[questionIndex].score.push("");
       return {
         ...prevData,
-        options: updatedOptions,
-        score: updatedScore,
+        questions: updatedQuestions,
       };
     });
   };
 
-  const [formData, setFormData] = useState({
-    title: null,
-    desc: null,
-    point: null,
-    question: null,
-    options: [],
-    score: [],
-  });
+  const removeOption = (questionIndex, optionIndex) => {
+    setFormData((prevData) => {
+      const updatedQuestions = [...prevData.questions];
+      updatedQuestions[questionIndex].options.splice(optionIndex, 1);
+      updatedQuestions[questionIndex].score.splice(optionIndex, 1);
+      return {
+        ...prevData,
+        questions: updatedQuestions,
+      };
+    });
+  };
 
-  const handleInputChange = (e, index) => {
+  const removeQuestion = (index) => {
+    setQuestionData((prevQuestion) =>
+      prevQuestion.filter((_, i) => i !== index)
+    );
+    setFormData((prevData) => {
+      const updatedQuestions = [...prevData.questions];
+      updatedQuestions.splice(index, 1);
+      return {
+        ...prevData,
+        questions: updatedQuestions,
+      };
+    });
+  };
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name.startsWith("options")) {
-      setFormData((prevData) => {
-        const updatedOptions = [...prevData.options];
-        updatedOptions[index] = value;
-        return {
-          ...prevData,
-          options: updatedOptions,
-        };
-      });
-    } else if (name.startsWith("score")) {
-      setFormData((prevData) => {
-        const updatedScore = [...prevData.score];
-        updatedScore[index] = value;
-        return {
-          ...prevData,
-          score: updatedScore,
-        };
-      });
-    } else {
-      setFormData((prevData) => ({
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value.trim() === "" ? null : value,
+    }));
+  };
+
+  const handleInputChange = (e, questionIndex, optionIndex) => {
+    const { name, value } = e.target;
+
+    setFormData((prevData) => {
+      const updatedQuestions = [...prevData.questions];
+      if (name.startsWith("options")) {
+        updatedQuestions[questionIndex].options[optionIndex] = value;
+      } else if (name.startsWith("score")) {
+        updatedQuestions[questionIndex].score[optionIndex] = value;
+      } else if (name.startsWith("question")) {
+        updatedQuestions[questionIndex].question = value;
+      } else {
+        return prevData;
+      }
+      return {
         ...prevData,
-        [name]: value,
-      }));
-    }
+        questions: updatedQuestions,
+      };
+    });
   };
 
   const handleCreateSurvey = () => {
     console.log("Title:", formData.title);
     console.log("Description:", formData.desc);
     console.log("Point:", formData.point);
-    console.log("Question:", formData.question);
-    console.log("Options:", formData.options);
-    console.log("Score:", formData.score);
+    formData.questions.forEach((question, index) => {
+      console.log(`  Question ${index + 1}: ${question.question}`);
+      console.log("    Options:", question.options);
+      console.log("    Scores:", question.score);
+    });
   };
-
-  const addOptionAndScoreLabel = console.log("s");
-
   return (
     <div>
       <div class={style.header}>
@@ -109,7 +129,7 @@ export default function Create() {
             id={style.input}
             name="title"
             placeholder=""
-            onChange={handleInputChange}
+            onChange={(e) => handleChange(e)}
           />
           {formData.title === null ? (
             <label>0/100 Character</label>
@@ -122,7 +142,7 @@ export default function Create() {
             id={style.input}
             name="desc"
             placeholder=""
-            onChange={handleInputChange}
+            onChange={(e) => handleChange(e)}
           />
           {formData.desc === null ? (
             <label>0/5000 Character</label>
@@ -135,89 +155,141 @@ export default function Create() {
             id={style.input}
             name="point"
             placeholder="0"
-            onChange={handleInputChange}
+            onChange={(e) => handleChange(e)}
           />
         </div>
-        <button
-          className={style.qbtn}
-          onClick={() => {
-            setOption(!selectOption);
-            console.log(selectOption);
-          }}
-        >
-          <span id={style.plus_icon}>
-            <HiPlusCircle />
-          </span>
-          Question
-        </button>
-        {selectOption && (
-          <div className={style.card}>
-            <button
-              onClick={() => {
-                setOption(!selectOption);
-              }}
-              id={style.btnclose}
-            >
-              <HiOutlineX />
-            </button>
-            <p>Choice Question </p>
-            <input
-              type="text"
-              id={style.input}
-              name="question"
-              placeholder=""
-              onChange={handleInputChange}
-              value={formData.question}
-            />
-            {options.map((option, index) => (
-              <div key={index}>
-                <p id={style.psm}>{option}</p>
-                <div className={style.flexr}>
+        {questionData.length > 0 && (
+          <div className={style.card2}>
+            {questionData.map((question, questionIndex) => (
+              <div className={style.main} key={questionIndex}>
+                <div className={style.card}>
+                  <button
+                    onClick={() => {
+                      removeQuestion(questionIndex);
+                    }}
+                    id={style.btnclose}
+                  >
+                    <HiOutlineX />
+                  </button>
+                  <p>Choice Question {questionIndex + 1}</p>
                   <input
                     type="text"
-                    id={style.inputsm}
-                    name={`options[${index}]`}
+                    id={style.input}
+                    name={`question[${questionIndex}]`}
                     placeholder=""
-                    onChange={(e) => handleInputChange(e, index)}
-                    value={formData.options[index] || ""}
+                    onChange={(e) => handleInputChange(e, questionIndex)}
+                    value={formData.questions[questionIndex].question || ""}
                   />
-                  <span>
-                    <button
-                      onClick={() => removeOption(index)}
-                      id={style.btnclose2}
-                    >
-                      <HiOutlineX />
-                    </button>
-                  </span>
+                  {formData.questions[questionIndex].options.map(
+                    (option, optionIndex) => (
+                      <div key={optionIndex}>
+                        <p id={style.psm}>Option {optionIndex + 1}</p>
+                        <div className={style.flexr}>
+                          <input
+                            type="text"
+                            id={style.inputsm}
+                            name={`options[${questionIndex}][${optionIndex}]`}
+                            placeholder=""
+                            onChange={(e) =>
+                              handleInputChange(e, questionIndex, optionIndex)
+                            }
+                            value={option}
+                          />
+                          <span>
+                            <button
+                              onClick={() =>
+                                removeOption(questionIndex, optionIndex)
+                              }
+                              id={style.btnclose2}
+                            >
+                              <HiOutlineX />
+                            </button>
+                          </span>
+                        </div>
+                        <p id={style.psm}>Score</p>
+                        <input
+                          type="text"
+                          id={style.inputsm}
+                          name={`score[${questionIndex}][${optionIndex}]`}
+                          placeholder="0"
+                          onChange={(e) =>
+                            handleInputChange(e, questionIndex, optionIndex)
+                          }
+                          value={
+                            formData.questions[questionIndex].score[
+                              optionIndex
+                            ] || ""
+                          }
+                        />
+                      </div>
+                    )
+                  )}
+                  <div className={style.main}>
+                    {formData.questions[questionIndex].options.length >= 4 ? (
+                      <>
+                        <button className={style.qbtn2} onClick={() => {}}>
+                          <span id={style.plus_icon}>
+                            <HiPlusCircle />
+                          </span>
+                          Option
+                        </button>
+                        <p>Option Maximum : 4</p>
+                      </>
+                    ) : (
+                      <button
+                        className={style.qbtn2}
+                        onClick={() => {
+                          addOption(questionIndex);
+                        }}
+                      >
+                        <span id={style.plus_icon}>
+                          <HiPlusCircle />
+                        </span>
+                        Option
+                      </button>
+                    )}
+                  </div>
                 </div>
-                <p id={style.psm}>Score</p>
-                <input
-                  type="text"
-                  id={style.inputsm}
-                  name={`score[${index}]`}
-                  placeholder="0"
-                  onChange={(e) => handleInputChange(e, index)}
-                  value={formData.score[index] || ""}
-                />
               </div>
             ))}
-            <div className={style.main}>
-              <button
-                className={style.qbtn2}
-                onClick={() => {
-                  addOption();
-                }}
-              >
-                <span id={style.plus_icon}>
-                  <HiPlusCircle />
-                </span>
-                Option
-              </button>
-            </div>
           </div>
         )}
+
+        {questionData.length >= 10 ? (
+          <>
+            <button className={style.qbtn} onClick={() => {}}>
+              <span id={style.plus_icon}>
+                <HiPlusCircle />
+              </span>
+              Question
+            </button>
+            <p>Question Maximum : 10</p>
+          </>
+        ) : (
+          <>
+            <button
+              className={style.qbtn}
+              onClick={() => {
+                addQuestion();
+              }}
+            >
+              <span id={style.plus_icon}>
+                <HiPlusCircle />
+              </span>
+              Question
+            </button>
+          </>
+        )}
+
         <div className={style.btnflex}>
-          <button className={style.cancelbtn}>Cancel</button>
+          <button
+            className={style.cancelbtn}
+            onClick={() => {
+              router.back();
+            }}
+          >
+            Cancel
+          </button>
           <button className={style.createbtn} onClick={handleCreateSurvey}>
             Create
           </button>

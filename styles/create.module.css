@@ -43,7 +43,7 @@
   flex-direction: column;
   padding: 40px;
   width: 70%;
-
+  margin-top: 20px;
 }
 
 #input {
@@ -186,4 +186,12 @@
   cursor: pointer;
   outline: none;
   margin: 20px;
+}
+
+.card2 {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  width: 70%;
 }

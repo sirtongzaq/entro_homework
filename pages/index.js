@@ -124,7 +124,14 @@ export default function Home() {
               const survey = surveys.find(
                 (survey) => survey.id === question.survey_id
               );
-              return <Card question={question} survey={survey} />;
+              const option = options.find(
+                (option) => option.question_id === question.survey_id
+              );
+              return (
+                <>
+                  <Card question={question} survey={survey} option={option} />
+                </>
+              );
             })}
         </>
       ) : (
@@ -145,7 +152,14 @@ export default function Home() {
               const survey = surveys.find(
                 (survey) => survey.id === question.survey_id
               );
-              return <Card question={question} survey={survey} />;
+              const option = options.find(
+                (option) => option.question_id === question.survey_id
+              );
+              return (
+                <>
+                  <Card question={question} survey={survey} option={option} />
+                </>
+              );
             })}
         </>
       )}
