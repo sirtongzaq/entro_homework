@@ -2,15 +2,7 @@ import { useRouter } from "next/router";
 import data from "/data/surveys_mock.json";
 import React, { useState } from "react";
 import Card from "./components/card";
-import {
-  HiOutlineEye,
-  HiOutlinePencil,
-  HiOutlineTrash,
-  HiPlus,
-  HiOutlineAdjustments,
-  HiChevronDoubleUp,
-  HiChevronDoubleDown,
-} from "react-icons/hi";
+import { HiPlus, HiChevronDoubleUp, HiChevronDoubleDown } from "react-icons/hi";
 
 export default function Home() {
   const router = useRouter();
@@ -23,9 +15,8 @@ export default function Home() {
   const [select, setSelect] = useState(false);
   const [sortData, setSortData] = useState("newest");
   const [searchQuery, setSearchQuery] = useState("");
-  const filteredQuestions = questions.filter((question) => {
-    const survey = surveys.find((survey) => survey.id === question.survey_id);
-    const searchString = `${question.question.toLowerCase()} ${survey.create_by.toLowerCase()} ${survey.created_at.toLowerCase()}`;
+  const filteredSurveys = surveys.filter((survey) => {
+    const searchString = `${survey.Title.toLowerCase()} ${survey.create_by.toLowerCase()} ${survey.created_at.toLowerCase()}`;
     return searchString.includes(searchQuery.toLowerCase());
   });
 
@@ -106,63 +97,52 @@ export default function Home() {
           Create Survey
         </button>
       </div>
-      {sortData === "newest" ? (
-        <>
-          {filteredQuestions
-            .sort((a, b) => {
-              const surveyA = surveys.find(
-                (survey) => survey.id === a.survey_id
-              );
-              const surveyB = surveys.find(
-                (survey) => survey.id === b.survey_id
-              );
-              return (
-                new Date(surveyB.created_at) - new Date(surveyA.created_at)
-              );
-            })
-            .map((question) => {
-              const survey = surveys.find(
-                (survey) => survey.id === question.survey_id
-              );
-              const option = options.find(
-                (option) => option.question_id === question.survey_id
-              );
-              return (
-                <>
-                  <Card question={question} survey={survey} option={option} />
-                </>
-              );
-            })}
-        </>
-      ) : (
-        <>
-          {filteredQuestions
-            .sort((a, b) => {
-              const surveyA = surveys.find(
-                (survey) => survey.id === a.survey_id
-              );
-              const surveyB = surveys.find(
-                (survey) => survey.id === b.survey_id
-              );
-              return (
-                new Date(surveyA.created_at) - new Date(surveyB.created_at)
-              );
-            })
-            .map((question) => {
-              const survey = surveys.find(
-                (survey) => survey.id === question.survey_id
-              );
-              const option = options.find(
-                (option) => option.question_id === question.survey_id
-              );
-              return (
-                <>
-                  <Card question={question} survey={survey} option={option} />
-                </>
-              );
-            })}
-        </>
-      )}
+      <p>
+        Result {filteredSurveys.length} / {surveys.length}
+      </p>
+      <>
+        {sortData === "newest" ? (
+          <>
+            {filteredSurveys
+              .sort((a, b) => b.created_at.localeCompare(a.created_at))
+              .map((survey) => {
+                const question = questions.find(
+                  (q) => q.survey_id === survey.id
+                );
+                const option = options.filter(
+                  (opt) => opt.question_id === question.id
+                );
+                return (
+                  <Card
+                    question={question}
+                    survey={survey}
+                    option={option}
+                  />
+                );
+              })}
+          </>
+        ) : (
+          <>
+            {filteredSurveys
+              .sort((b, a) => b.created_at.localeCompare(a.created_at))
+              .map((survey) => {
+                const question = questions.find(
+                  (q) => q.survey_id === survey.id
+                );
+                const option = options.filter(
+                  (opt) => opt.question_id === question.id
+                );
+                return (
+                  <Card
+                    question={question}
+                    survey={survey}
+                    option={option}
+                  />
+                );
+              })}
+          </>
+        )}
+      </>
     </div>
   );
 }
