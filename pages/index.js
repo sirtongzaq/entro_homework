@@ -97,8 +97,8 @@ export default function Home() {
           Create Survey
         </button>
       </div>
-      <p>
-        Result {filteredSurveys.length} / {surveys.length}
+      <p className="result">
+        Results {filteredSurveys.length} items
       </p>
       <>
         {sortData === "newest" ? (

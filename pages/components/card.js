@@ -1,8 +1,8 @@
 import { HiOutlineEye, HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 import React, { useState, useRef, useEffect } from "react";
-import style from "../../styles/view.module.css";
-import data from "/data/surveys_mock.json";
 
+import data from "/data/surveys_mock.json";
+import PreviewPage from "./view";
 const Card = ({ question, survey, option }) => {
   const surveys = data.Surveys;
   const questions = data.Questions;
@@ -26,61 +26,19 @@ const Card = ({ question, survey, option }) => {
     currentQuestionIndex < questionsForSurvey.length
       ? questionsForSurvey[currentQuestionIndex]
       : null;
+
   return (
     <>
       {viewSelect && option.length > 0 ? (
-        <div className={style.main}>
-          <div className={style.cardlg}>
-            <button className={style.btnclose} onClick={ToggleView}>
-              X
-            </button>
-            <h1>Preview Mode</h1>
-            <div className={style.cardsm}>
-              <p>
-                {currentQuestionIndex + 1}/{questionsForSurvey.length}
-              </p>
-              <div className={style.card}>
-                {currentQuestion ? (
-                  <div key={currentQuestionIndex}>
-                    <p>| {currentQuestion.question}</p>
-                    {options
-                      .filter((o) => o.question_id === currentQuestion.id)
-                      .map((opt, index) => (
-                        <div key={opt.id}>
-                          {index === 0
-                            ? "A. "
-                            : index === 1
-                            ? "B. "
-                            : index === 2
-                            ? "C. "
-                            : index === 3
-                            ? "D. "
-                            : "Error"}
-                          {opt.option}, Score: {opt.score}
-                        </div>
-                      ))}
-                  </div>
-                ) : (
-                  <p>No more questions.</p>
-                )}
-              </div>
-              <button
-                onClick={prevQuestion}
-                disabled={currentQuestionIndex === 0}
-              >
-                Previous
-              </button>
-              <button
-                onClick={nextQuestion}
-                disabled={
-                  currentQuestionIndex === questionsForSurvey.length - 1
-                }
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        </div>
+        <PreviewPage
+          currentQuestionIndex={currentQuestionIndex}
+          questionsForSurvey={questionsForSurvey}
+          currentQuestion={currentQuestion}
+          options={options}
+          prevQuestion={prevQuestion}
+          nextQuestion={nextQuestion}
+          ToggleView={ToggleView}
+        />
       ) : (
         <></>
       )}
@@ -95,12 +53,12 @@ const Card = ({ question, survey, option }) => {
                 </button>
               </span>
               <span>
-                <button className="icon-btn-edit">
+                <button className="icon-btn-edit" onClick={() => {}}>
                   <HiOutlinePencil />
                 </button>
               </span>
               <span>
-                <button className="icon-btn-delete">
+                <button className="icon-btn-delete" onClick={() => {}}>
                   <HiOutlineTrash />
                 </button>
               </span>

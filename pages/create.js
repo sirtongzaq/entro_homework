@@ -227,7 +227,6 @@ export default function Create() {
                   <div className={style.main}>
                     {formData.questions[questionIndex].options.length >= 4 ? (
                       <>
-                        
                         <p>Option Maximum : 4</p>
                       </>
                     ) : (
@@ -249,15 +248,8 @@ export default function Create() {
             ))}
           </div>
         )}
-
         {questionData.length >= 10 ? (
           <>
-            <button className={style.qbtn} onClick={() => {}}>
-              <span id={style.plus_icon}>
-                <HiPlusCircle />
-              </span>
-              Question
-            </button>
             <p>Question Maximum : 10</p>
           </>
         ) : (

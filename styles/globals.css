@@ -100,7 +100,6 @@ html {
 }
 #search-input:focus {
   border: 1px solid #3b82f6;
-  
 }
 
 #custom-select {
@@ -204,4 +203,10 @@ html {
   width: 100%;
   outline: none;
   color: #fff;
+}
+
+.result {
+  color: #6b7280;
+  padding-left: 20px;
+  font-weight: bold;
 }
