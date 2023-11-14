@@ -5,7 +5,6 @@ import {
 } from "react-icons/hi";
 import React, { useState, useRef, useEffect } from "react";
 import style from "../../styles/view.module.css";
-import data from "/data/surveys_mock.json";
 export default function View({
   currentQuestionIndex,
   questionsForSurvey,

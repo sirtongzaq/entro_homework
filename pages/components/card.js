@@ -1,9 +1,17 @@
 import { HiOutlineEye, HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 import React, { useState, useRef, useEffect } from "react";
-
 import data from "/data/surveys_mock.json";
+import { useRouter } from "next/router";
+
 import PreviewPage from "./view";
 const Card = ({ question, survey, option }) => {
+  const router = useRouter();
+  const navigateToEdit = () => {
+    router.push({
+      pathname: "/edit",
+      query: { survey: survey.id },
+    });
+  };
   const surveys = data.Surveys;
   const questions = data.Questions;
   const options = data.Options;
@@ -12,7 +20,7 @@ const Card = ({ question, survey, option }) => {
     setViewSelect(!viewSelect);
   };
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-
+  const questionsForSurvey = questions.filter((q) => q.survey_id === survey.id);
   const nextQuestion = () => {
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
@@ -20,7 +28,6 @@ const Card = ({ question, survey, option }) => {
   const prevQuestion = () => {
     setCurrentQuestionIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
-  const questionsForSurvey = questions.filter((q) => q.survey_id === survey.id);
 
   const currentQuestion =
     currentQuestionIndex < questionsForSurvey.length
@@ -29,7 +36,7 @@ const Card = ({ question, survey, option }) => {
 
   return (
     <>
-      {viewSelect && option.length > 0 ? (
+      {viewSelect ? (
         <PreviewPage
           currentQuestionIndex={currentQuestionIndex}
           questionsForSurvey={questionsForSurvey}
@@ -53,7 +60,10 @@ const Card = ({ question, survey, option }) => {
                 </button>
               </span>
               <span>
-                <button className="icon-btn-edit" onClick={() => {}}>
+                <button
+                  className="icon-btn-edit"
+                  onClick={() => navigateToEdit()}
+                >
                   <HiOutlinePencil />
                 </button>
               </span>
