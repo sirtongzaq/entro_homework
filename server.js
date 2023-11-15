@@ -14,28 +14,26 @@ const jsonFile = "surveys_mock.json";
 app.post("/surveys", async (req, res) => {
   try {
     const data = await fs.readFile(jsonFile, "utf8");
-    const surveys = JSON.parse(data).Surveys;
-    const questions = JSON.parse(data).Questions;
-    const options = JSON.parse(data).Options;
+    const { Surveys, Questions, Options } = JSON.parse(data);
 
     const newSurvey = req.body.Surveys;
     const newQuestion = req.body.Questions;
     const newOption = req.body.Options;
 
-    surveys.push(newSurvey);
-    questions.push(newQuestion);
-    options.push(newOption);
+    const newOptionId =
+      Options.length > 0 ? Options[Options.length - 1].id + 1 : 1;
+    newOption.id = newOptionId;
+    Surveys.push(...newSurvey);
+    Questions.push(...newQuestion);
+    Options.push(...newOption);
+
     await fs.writeFile(
       jsonFile,
-      JSON.stringify(
-        { Surveys: surveys, Questions: questions, Options: options },
-        null,
-        2
-      ),
+      JSON.stringify({ Surveys, Questions, Options }, null, 2),
       "utf8"
     );
 
-    res.status(201).json(newSurvey);
+    res.status(201).json(req.body);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

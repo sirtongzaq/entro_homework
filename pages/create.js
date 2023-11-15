@@ -45,7 +45,7 @@ export default function Create() {
     ],
     Options: [
       {
-        id: options.length + 1,
+        id: options.length +1 ,
         question_id: questions.length + 1,
         option: ["", ""],
         score: ["", ""],
