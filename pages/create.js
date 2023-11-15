@@ -24,7 +24,6 @@ export default function Create() {
     .toString()
     .padStart(2, "0")}:${currentDate.getSeconds().toString().padStart(2, "0")}`;
   const router = useRouter();
-  const [questionData, setQuestionData] = useState([]);
   const [formData, setFormData] = useState({
     Surveys: [
       {
@@ -52,7 +51,6 @@ export default function Create() {
         score: ["", ""],
       },
     ],
-    latestQuestionId: questions.length + 1,
   });
 
   const handleChangeSurvey = (e) => {
@@ -97,9 +95,14 @@ export default function Create() {
     setFormData((prevData) => {
       const updatedOptions = [...prevData.Options];
 
-      // Update the option or score based on the input field's name
       updatedOptions[questionIndex][name][optionIndex] =
-        value.trim() === "" ? null : value;
+        name === "score"
+          ? value.trim() === ""
+            ? null
+            : parseInt(value)
+          : value.trim() === ""
+          ? null
+          : value;
 
       return {
         ...prevData,
@@ -136,7 +139,6 @@ export default function Create() {
         ...prevData,
         Questions: updatedQuestions,
         Options: updatedOptions,
-        // latestQuestionId: formData.latestQuestionId + 1,
       };
     });
   };
@@ -191,6 +193,34 @@ export default function Create() {
     });
   };
 
+  const postData = async ({
+    formattedSurveys,
+    formattedQuestions,
+    formattedOptions,
+  }) => {
+    try {
+      const response = await fetch("http://localhost:3001/surveys", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Surveys: formattedSurveys,
+          Questions: formattedQuestions,
+          Options: formattedOptions,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Data sent to server");
+      } else {
+        console.error("Failed to send data to server");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   const handleCreateSurvey = () => {
     const formattedSurveys = formData.Surveys.map((survey) => ({
       id: survey.id,
@@ -217,15 +247,17 @@ export default function Create() {
       }));
       formattedOptions.push(...optionsArray);
     });
+
+    // push data to json file
+    postData({ formattedSurveys, formattedQuestions, formattedOptions });
     console.log({ Surveys: formattedSurveys });
     console.log({ Questions: formattedQuestions });
     console.log({ Options: formattedOptions });
-    
   };
 
   return (
     <div>
-      <div class={style.header}>
+      <div className={style.header}>
         <h1>
           <button
             id={style.back_btn}
@@ -255,7 +287,7 @@ export default function Create() {
           {formData.Surveys[0].Title === null ? (
             <label>0/100 Character</label>
           ) : (
-            <label>{formData.Surveys[0].Title}/100 Character</label>
+            <label>{formData.Surveys[0].Title.length}/100 Character</label>
           )}
           <p>Description</p>
           <input
@@ -268,7 +300,9 @@ export default function Create() {
           {formData.Surveys[0].Description === null ? (
             <label>0/5000 Character</label>
           ) : (
-            <label>{formData.Surveys[0].Description}/5000 Character</label>
+            <label>
+              {formData.Surveys[0].Description.length}/5000 Character
+            </label>
           )}
           <p>Point</p>
           <input
@@ -331,7 +365,7 @@ export default function Create() {
                         </div>
                         <p id={style.psm}>Score</p>
                         <input
-                          type="text"
+                          type="number"
                           id={style.inputsm}
                           name="score"
                           placeholder="0"
