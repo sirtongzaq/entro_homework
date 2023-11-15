@@ -179,6 +179,15 @@
       "create_by": "Honoria",
       "created_at": "2023-10-19 22:26:36",
       "update_at": "2022-12-19 06:05:57"
+    },
+    {
+      "id": 21,
+      "Title": "test title",
+      "Description": "tromng su",
+      "point": 1,
+      "create_by": "Tongsu",
+      "created_at": "2023-11-15 17:15:05",
+      "update_at": "2023-11-15 17:15:05"
     }
   ],
   "Questions": [
@@ -381,6 +390,11 @@
       "id": 40,
       "survey_id": 20,
       "question": "dream vacation?"
+    },
+    {
+      "id": 41,
+      "survey_id": 21,
+      "question": "test"
     }
   ],
   "Options": [
@@ -623,6 +637,18 @@
       "question_id": 20,
       "option": "comedy",
       "score": 7
+    },
+    {
+      "id": 41,
+      "question_id": 41,
+      "option": "1",
+      "score": 2
+    },
+    {
+      "id": 41,
+      "question_id": 41,
+      "option": "4",
+      "score": 54
     }
   ]
 }

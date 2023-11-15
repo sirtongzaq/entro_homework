@@ -8,7 +8,7 @@ const port = 3001;
 app.use(cors()); // <-- Add parentheses here
 app.use(bodyParser.json());
 
-const jsonFile = "surveys_mock.json";
+const jsonFile = "data/surveys_mock.json";
 
 // Create a new survey
 app.post("/surveys", async (req, res) => {
