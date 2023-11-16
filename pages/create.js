@@ -45,7 +45,7 @@ export default function Create() {
     ],
     Options: [
       {
-        id: options.length +1 ,
+        id: options.length + 1,
         question_id: questions.length + 1,
         option: ["", ""],
         score: ["", ""],
@@ -253,6 +253,7 @@ export default function Create() {
     console.log({ Surveys: formattedSurveys });
     console.log({ Questions: formattedQuestions });
     console.log({ Options: formattedOptions });
+    router.back();
   };
 
   return (
@@ -275,7 +276,6 @@ export default function Create() {
       <div className={style.main}>
         <h1>Create Survey</h1>
         <div className={style.card}>
-          <p>{formData.Surveys[0].id}</p>
           <p>Title</p>
           <input
             type="text"
@@ -326,8 +326,6 @@ export default function Create() {
                   >
                     <HiOutlineX />
                   </button>
-                  <p>Question Survey ID {question.survey_id}</p>
-                  <p>Question ID {question.id}</p>
                   <p>Choice Question {questionIndex + 1}</p>
                   <input
                     type="text"

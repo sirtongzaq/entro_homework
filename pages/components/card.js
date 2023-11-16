@@ -54,7 +54,7 @@ const Card = ({ question, survey, option }) => {
         <></>
       )}
       {viewDelete ? (
-        <PreviewDelete surveyId={survey.id} ToggleDelete={ToggleDelete} />
+        <PreviewDelete surveyId={survey} ToggleDelete={ToggleDelete} />
       ) : (
         <></>
       )}

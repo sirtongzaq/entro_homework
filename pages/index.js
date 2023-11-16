@@ -97,9 +97,7 @@ export default function Home() {
           Create Survey
         </button>
       </div>
-      <p className="result">
-        Results {filteredSurveys.length} items
-      </p>
+      <p className="result">Results {filteredSurveys.length} items</p>
       <>
         {sortData === "newest" ? (
           <>
@@ -109,15 +107,11 @@ export default function Home() {
                 const question = questions.find(
                   (q) => q.survey_id === survey.id
                 );
-                const option = options.filter(
-                  (opt) => opt.question_id === question.id
-                );
+                const option =
+                  options.filter((opt) => opt.question_id === question?.id) ||
+                  [];
                 return (
-                  <Card
-                    question={question}
-                    survey={survey}
-                    option={option}
-                  />
+                  <Card question={question} survey={survey} option={option} />
                 );
               })}
           </>
@@ -133,11 +127,7 @@ export default function Home() {
                   (opt) => opt.question_id === question.id
                 );
                 return (
-                  <Card
-                    question={question}
-                    survey={survey}
-                    option={option}
-                  />
+                  <Card question={question} survey={survey} option={option} />
                 );
               })}
           </>

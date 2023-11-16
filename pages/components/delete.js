@@ -4,7 +4,8 @@ import {
   HiOutlineChevronLeft,
 } from "react-icons/hi";
 import React, { useState, useRef, useEffect } from "react";
-import style from "../../styles/view.module.css";
+import style from "../../styles/delete.module.css";
+import data from "../../data/surveys_mock.json";
 export default function Delete({ surveyId, ToggleDelete }) {
   const deleteSurvey = async (x) => {
     try {
@@ -27,11 +28,29 @@ export default function Delete({ surveyId, ToggleDelete }) {
   };
   return (
     <div className={style.main}>
-      <div className={style.cardsm}>
-        <p>DELTE</p>
-        <p>{surveyId}</p>
-        <button onClick={ToggleDelete}>Cancel</button>
-        <button onClick={() => deleteSurvey(surveyId)}>Delete</button>
+      <div className={style.card}>
+        <button className={style.btnclose} onClick={ToggleDelete}>
+          X
+        </button>
+        <div className={style.header}>
+          <h1>Delete Survey</h1>
+        </div>
+        <p>
+          Survey <span>"{surveyId.Title}"</span> is{" "}
+          <span id={style.pactive}>Active</span> are you sure you want Delete
+          Survey?
+        </p>
+        <div className={style.btnflex}>
+          <button className={style.cancelbtn} onClick={ToggleDelete}>
+            Cancel
+          </button>
+          <button
+            className={style.createbtn}
+            onClick={() => deleteSurvey(surveyId.id)}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
+import { HiOutlineChevronLeft, HiPlusCircle, HiOutlineX } from "react-icons/hi";
 import { useRouter } from "next/router";
-import React, { useState, useEffect } from "react";
-import data from "../data/surveys_mock.json";
 import style from "../styles/create.module.css";
-import { HiOutlineChevronLeft, HiOutlineX, HiPlusCircle } from "react-icons/hi";
+import React, { useState } from "react";
+import data from "../data/surveys_mock.json";
 
-const Edit = () => {
+export default function Edit() {
   const currentDate = new Date();
   const formattedDate = `${currentDate.getFullYear()}-${(
     currentDate.getMonth() + 1
@@ -22,66 +22,248 @@ const Edit = () => {
     .padStart(2, "0")}:${currentDate.getSeconds().toString().padStart(2, "0")}`;
   const router = useRouter();
   const { survey } = router.query;
+  const surveyId = parseInt(survey);
   const surveys = data.Surveys;
   const questions = data.Questions;
   const options = data.Options;
-  const surveyId = parseInt(survey);
   const filteredSurvey = surveys.find((s) => s.id === surveyId);
   const questionsForSurvey = questions.filter((q) => q.survey_id === surveyId);
-  const optionsForQuestions = questionsForSurvey.map((question) => ({
-    question_id: question.id,
+  const defaultQuestions = questionsForSurvey.map((question) => ({
+    id: question.id,
+    survey_id: question.survey_id,
+    question: question.question,
     options: options.filter((o) => o.question_id === question.id),
   }));
-  const [oldData, setOldData] = useState({
+
+  const defaultOptions = defaultQuestions.map((question) => {
+    const optionsForQuestion = question.options.map((option) => ({
+      id: option.id,
+      question_id: option.question_id,
+      option: option.option,
+      score: option.score,
+    }));
+
+    return {
+      id: optionsForQuestion.length > 0 ? optionsForQuestion[0].id : null,
+      question_id: question.id,
+      option: optionsForQuestion.map((o) => o.option),
+      score: optionsForQuestion.map((o) => o.score),
+    };
+  });
+
+  const [formData, setFormData] = useState({
     Surveys: [
       {
-        Title: "",
-        Description: "",
-        point: "",
+        id: filteredSurvey.id,
+        Title: filteredSurvey.Title,
+        Description: filteredSurvey.Description,
+        point: filteredSurvey.point,
         create_by: "Tongsu",
         created_at: formattedDate,
         update_at: formattedDate,
       },
     ],
-    Questions: questionsForSurvey,
-    Options: optionsForQuestions,
+    Questions: defaultQuestions,
+    Options: defaultOptions,
+    questionsForSurvey: questionsForSurvey,
   });
 
-  const handleInputChange = (e, questionIndex, optionIndex) => {
+  const handleChangeSurvey = (e) => {
     const { name, value } = e.target;
 
-    setOldData((prevData) => {
-      const newData = { ...prevData };
+    setFormData((prevData) => ({
+      ...prevData,
+      Surveys: [
+        {
+          ...prevData.Surveys[0],
+          [name]:
+            name === "point"
+              ? value.trim() === ""
+                ? null
+                : parseInt(value)
+              : value,
+        },
+      ],
+    }));
+  };
 
-      // Split the name into parts based on dots
-      const nameParts = name.split('.');
+  const handleChangeQuestion = (e, questionIndex) => {
+    const { name, value } = e.target;
 
-      // Traverse the data structure based on name parts
-      let target = newData;
-      for (let i = 0; i < nameParts.length; i++) {
-        const part = nameParts[i];
+    setFormData((prevData) => {
+      const updatedQuestions = [...prevData.Questions];
+      updatedQuestions[questionIndex] = {
+        ...updatedQuestions[questionIndex],
+        [name]: value.trim() === "" ? null : value,
+      };
 
-        if (i === nameParts.length - 1) {
-          // Update the value at the target field
-          target[part] = value;
-        } else {
-          // Initialize the nested structure if it doesn't exist
-          target[part] = target[part] || (isNaN(nameParts[i + 1]) ? {} : []);
-          // Traverse deeper into the data structure
-          target = target[part];
-        }
-      }
+      return {
+        ...prevData,
+        Questions: updatedQuestions,
+      };
+    });
+  };
 
-      return newData;
+  const handleChangeOption = (e, questionIndex, optionIndex) => {
+    const { name, value } = e.target;
+
+    setFormData((prevData) => {
+      const updatedOptions = [...prevData.Options];
+
+      updatedOptions[questionIndex][name][optionIndex] =
+        name === "score"
+          ? value.trim() === ""
+            ? null
+            : parseInt(value)
+          : value.trim() === ""
+          ? null
+          : value;
+
+      return {
+        ...prevData,
+        Options: updatedOptions,
+      };
     });
   };
 
   const addQuestion = () => {
-    console.log(oldData);
+    setFormData((prevData) => {
+      const updatedQuestions = [...prevData.Questions];
+      const updatedOptions = [...prevData.Options];
+      const qid = questions.length + updatedQuestions.length;
+      updatedQuestions.push({
+        id: qid,
+        survey_id: prevData.Surveys[0].id,
+        question: "",
+      });
+
+      updatedOptions.push({
+        id: qid,
+        question_id: qid,
+        option: ["", ""],
+        score: ["", ""],
+      });
+
+      return {
+        ...prevData,
+        Questions: updatedQuestions,
+        Options: updatedOptions,
+      };
+    });
   };
 
+  const removeQuestion = (questionIndex) => {
+    setFormData((prevData) => {
+      const updatedQuestions = [...prevData.Questions];
+      const updatedOptions = [...prevData.Options];
+      updatedQuestions.splice(questionIndex, 1);
+      updatedOptions.splice(questionIndex, 1);
+
+      return {
+        ...prevData,
+        Questions: updatedQuestions,
+        Options: updatedOptions,
+      };
+    });
+  };
+
+  const addOption = (questionIndex) => {
+    setFormData((prevData) => {
+      const updatedOptions = [...prevData.Options];
+
+      if (updatedOptions[questionIndex].option.length < 4) {
+        updatedOptions[questionIndex].option = [
+          ...updatedOptions[questionIndex].option,
+          "",
+        ];
+        updatedOptions[questionIndex].score = [
+          ...updatedOptions[questionIndex].score,
+          "",
+        ];
+      }
+
+      return {
+        ...prevData,
+        Options: updatedOptions,
+      };
+    });
+  };
+
+  const removeOption = (questionIndex, optionIndex) => {
+    setFormData((prevData) => {
+      const updatedOptions = [...prevData.Options];
+      updatedOptions[questionIndex].option.splice(optionIndex, 1);
+      updatedOptions[questionIndex].score.splice(optionIndex, 1);
+
+      return {
+        ...prevData,
+        Options: updatedOptions,
+      };
+    });
+  };
+
+  const handleCreateSurvey = async () => {
+    try {
+      const formattedSurveys = formData.Surveys.map((survey) => ({
+        id: survey.id,
+        Title: survey.Title,
+        Description: survey.Description,
+        point: survey.point,
+        create_by: survey.create_by,
+        created_at: survey.created_at,
+        update_at: survey.update_at,
+      }));
+      const formattedQuestions = formData.Questions.map((question) => ({
+        id: question.id,
+        survey_id: question.survey_id,
+        question: question.question,
+      }));
+      const formattedOptions = formData.Options.reduce((acc, option) => {
+        const optionsArray = option.option.map((opt, index) => ({
+          id: option.id,
+          question_id: option.question_id,
+          option: opt,
+          score: option.score[index],
+        }));
+        return acc.concat(optionsArray);
+      }, []);
+      console.log(formattedSurveys);
+      console.log(formattedQuestions);
+      console.log(formattedOptions);
+      const updateData = {
+        Surveys: formattedSurveys,
+        Questions: formattedQuestions,
+        Options: formattedOptions,
+      };
+
+      const surveyIdToUpdate = surveyId;
+
+      const response = await fetch(
+        `http://localhost:3001/surveys/${surveyIdToUpdate}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updateData),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Survey updated successfully");
+      } else {
+        console.error("Failed to update survey");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (!filteredSurvey) {
+    return <p>Survey not found</p>;
+  }
   return (
-    <>
+    <div>
       <div className={style.header}>
         <h1>
           <button
@@ -98,83 +280,93 @@ const Edit = () => {
         </h1>
       </div>
       <div className={style.main}>
-        <h1>Edit Survey</h1>
-        {filteredSurvey ? (
-          <div className={style.card}>
-            <p>Title</p>
-            <input
-              type="text"
-              id={style.input}
-              name="Surveys.Title"
-              placeholder={filteredSurvey.Title}
-              onChange={(e) => handleInputChange(e)}
-            />
-            {oldData.Surveys[0].Title === null ||
-            oldData.Surveys[0].Title === undefined ? (
-              <label>{filteredSurvey.Title.length}/100 Character</label>
-            ) : (
-              <label>{oldData.Surveys[0].Title.length}/100 Character</label>
-            )}
-            <p>Description</p>
-            <input
-              type="text"
-              id={style.input}
-              name="Surveys.Description"
-              placeholder={filteredSurvey.Description}
-              onChange={(e) => handleInputChange(e)}
-            />
-            {oldData.Surveys[0].Description === null ||
-            oldData.Surveys[0].Description === undefined ? (
-              <label>{filteredSurvey.Description.length}/5000 Character</label>
-            ) : (
-              <label>
-                {oldData.Surveys[0].Description.length}/5000 Character
-              </label>
-            )}
-            <p>Point</p>
-            <input
-              type="number"
-              id={style.input}
-              name="Surveys.point"
-              placeholder={filteredSurvey.point}
-              onChange={(e) => handleInputChange(e)}
-            />
-          </div>
-        ) : (
-          <p>Survey not found</p>
-        )}
-        {oldData.Questions.length > 0 ? (
+        <h1>Create Survey</h1>
+        <div className={style.card}>
+          <p>Title</p>
+          <input
+            type="text"
+            id={style.input}
+            name="Title"
+            placeholder=""
+            value={formData.Surveys[0].Title}
+            onChange={(e) => handleChangeSurvey(e)}
+          />
+          {formData.Surveys[0].Title === null ? (
+            <label>0/100 Character</label>
+          ) : (
+            <label>{formData.Surveys[0].Title.length}/100 Character</label>
+          )}
+          <p>Description</p>
+          <input
+            type="text"
+            id={style.input}
+            name="Description"
+            placeholder=""
+            value={formData.Surveys[0].Description}
+            onChange={(e) => handleChangeSurvey(e)}
+          />
+          {formData.Surveys[0].Description === null ? (
+            <label>0/5000 Character</label>
+          ) : (
+            <label>
+              {formData.Surveys[0].Description.length}/5000 Character
+            </label>
+          )}
+          <p>Point</p>
+          <input
+            type="number"
+            id={style.input}
+            name="point"
+            placeholder=""
+            value={formData.Surveys[0].point}
+            onChange={(e) => handleChangeSurvey(e)}
+          />
+        </div>
+        {formData.Questions.length > 0 && (
           <div className={style.card2}>
-            {oldData.Questions.map((question, questionIndex) => (
+            {formData.Questions.map((question, questionIndex) => (
               <div className={style.main} key={questionIndex}>
                 <div className={style.card}>
-                  <button onClick={() => {}} id={style.btnclose}>
+                  <button
+                    onClick={() => {
+                      removeQuestion(questionIndex);
+                    }}
+                    id={style.btnclose}
+                  >
                     <HiOutlineX />
                   </button>
+                  <p>Question ID {question.id || "ID not available"}</p>
                   <p>Choice Question {questionIndex + 1}</p>
                   <input
                     type="text"
                     id={style.input}
-                    name={`Questions[${questionIndex}].question`}
-                    placeholder={question.question}
-                    onChange={(e) => handleInputChange(e, questionIndex)}
+                    name="question"
+                    placeholder=""
+                    onChange={(e) => handleChangeQuestion(e, questionIndex)}
+                    value={formData.Questions[questionIndex].question || ""}
                   />
-                  {oldData.Options[questionIndex].options.map(
-                    (opt, optionIndex) => (
+                  {formData.Options[questionIndex].option.map(
+                    (option, optionIndex) => (
                       <div key={optionIndex}>
                         <p id={style.psm}>Option {optionIndex + 1}</p>
                         <div className={style.flexr}>
                           <input
                             type="text"
                             id={style.inputsm}
-                            name={`Options[${questionIndex}].options[${optionIndex}].option`}
-                            placeholder={opt.option}
+                            name="option"
+                            placeholder=""
                             onChange={(e) =>
-                              handleInputChange(e, questionIndex, optionIndex)
+                              handleChangeOption(e, questionIndex, optionIndex)
                             }
+                            value={option}
                           />
                           <span>
-                            <button onClick={() => {}} id={style.btnclose2}>
+                            <button
+                              onClick={() =>
+                                removeOption(questionIndex, optionIndex)
+                              }
+                              id={style.btnclose2}
+                            >
                               <HiOutlineX />
                             </button>
                           </span>
@@ -183,22 +375,32 @@ const Edit = () => {
                         <input
                           type="number"
                           id={style.inputsm}
-                          name={`Options[${questionIndex}].options[${optionIndex}].score`}
-                          placeholder={opt.score}
+                          name="score"
+                          placeholder="0"
                           onChange={(e) =>
-                            handleInputChange(e, questionIndex, optionIndex)
+                            handleChangeOption(e, questionIndex, optionIndex)
+                          }
+                          value={
+                            formData.Options[questionIndex].score[
+                              optionIndex
+                            ] || ""
                           }
                         />
                       </div>
                     )
                   )}
                   <div className={style.main}>
-                    {oldData.Options.length >= 4 ? (
+                    {formData.Options[questionIndex].option.length >= 4 ? (
                       <>
                         <p>Option Maximum : 4</p>
                       </>
                     ) : (
-                      <button className={style.qbtn2} onClick={() => {}}>
+                      <button
+                        className={style.qbtn2}
+                        onClick={() => {
+                          addOption(questionIndex);
+                        }}
+                      >
                         <span id={style.plus_icon}>
                           <HiPlusCircle />
                         </span>
@@ -210,16 +412,19 @@ const Edit = () => {
               </div>
             ))}
           </div>
-        ) : (
-          <p>No questions found for this survey</p>
         )}
-        {oldData.Questions.length >= 10 ? (
+        {formData.Questions.length >= 10 ? (
           <>
             <p>Question Maximum : 10</p>
           </>
         ) : (
           <>
-            <button className={style.qbtn} onClick={() => {}}>
+            <button
+              className={style.qbtn}
+              onClick={() => {
+                addQuestion();
+              }}
+            >
               <span id={style.plus_icon}>
                 <HiPlusCircle />
               </span>
@@ -227,6 +432,7 @@ const Edit = () => {
             </button>
           </>
         )}
+
         <div className={style.btnflex}>
           <button
             className={style.cancelbtn}
@@ -236,18 +442,11 @@ const Edit = () => {
           >
             Cancel
           </button>
-          <button
-            className={style.createbtn}
-            onClick={() => {
-              console.log(oldData);
-            }}
-          >
-            Edit
+          <button className={style.createbtn} onClick={handleCreateSurvey}>
+            Create
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
-};
-
-export default Edit;
+}
