@@ -179,15 +179,6 @@
       "create_by": "Honoria",
       "created_at": "2023-10-19 22:26:36",
       "update_at": "2022-12-19 06:05:57"
-    },
-    {
-      "id": 21,
-      "Title": "test title",
-      "Description": "tromng su",
-      "point": 1,
-      "create_by": "Tongsu",
-      "created_at": "2023-11-15 17:15:05",
-      "update_at": "2023-11-15 17:15:05"
     }
   ],
   "Questions": [
@@ -390,11 +381,6 @@
       "id": 40,
       "survey_id": 20,
       "question": "dream vacation?"
-    },
-    {
-      "id": 41,
-      "survey_id": 21,
-      "question": "test"
     }
   ],
   "Options": [
@@ -649,6 +635,54 @@
       "question_id": 41,
       "option": "4",
       "score": 54
+    },
+    {
+      "id": 43,
+      "question_id": 42,
+      "option": "1",
+      "score": 1
+    },
+    {
+      "id": 43,
+      "question_id": 42,
+      "option": "1",
+      "score": -1
+    },
+    {
+      "id": 45,
+      "question_id": 41,
+      "option": "121",
+      "score": 11
+    },
+    {
+      "id": 45,
+      "question_id": 41,
+      "option": "11",
+      "score": 334
+    },
+    {
+      "id": 46,
+      "question_id": 42,
+      "option": "we",
+      "score": 11
+    },
+    {
+      "id": 46,
+      "question_id": 42,
+      "option": "d",
+      "score": 1
+    },
+    {
+      "id": 49,
+      "question_id": 41,
+      "option": "123",
+      "score": 123
+    },
+    {
+      "id": 49,
+      "question_id": 41,
+      "option": "33",
+      "score": 444
     }
   ]
 }
