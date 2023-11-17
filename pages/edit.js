@@ -44,7 +44,7 @@ export default function Edit() {
     }));
 
     return {
-      id: optionsForQuestion.length > 0 ? optionsForQuestion[0].id : null,
+      id: optionsForQuestion.map((o) => o.id),
       question_id: question.id,
       option: optionsForQuestion.map((o) => o.option),
       score: optionsForQuestion.map((o) => o.score),
@@ -130,15 +130,27 @@ export default function Edit() {
     setFormData((prevData) => {
       const updatedQuestions = [...prevData.Questions];
       const updatedOptions = [...prevData.Options];
-      const qid = questions.length + updatedQuestions.length;
+      const qid =
+        updatedQuestions.length > 0
+          ? updatedQuestions[updatedQuestions.length - 1].id + 1
+          : 1;
+
+      const lastOid =
+        updatedOptions.length > 0
+          ? Math.max(...updatedOptions[updatedOptions.length - 1].id)
+          : 0;
+      const oid = lastOid + 1;
+
       updatedQuestions.push({
         id: qid,
         survey_id: prevData.Surveys[0].id,
         question: "",
       });
 
+      const newIds = Array.from({ length: 2 }, (_, index) => oid + index);
+
       updatedOptions.push({
-        id: qid,
+        id: newIds,
         question_id: qid,
         option: ["", ""],
         score: ["", ""],
@@ -170,8 +182,18 @@ export default function Edit() {
   const addOption = (questionIndex) => {
     setFormData((prevData) => {
       const updatedOptions = [...prevData.Options];
+      const lastId = Math.max(...updatedOptions[questionIndex].id);
+      const newId = lastId + 1;
+      if (updatedOptions[questionIndex].option.length === 0) {
 
-      if (updatedOptions[questionIndex].option.length < 4) {
+        const newIds = Array.from({ length: 2 }, (_, index) => cqid + index);
+        const cqid = options.length;
+        const newId2 = cqid + 1;
+        updatedOptions[questionIndex].id.push(newId2);
+        updatedOptions[questionIndex].option = [""];
+        updatedOptions[questionIndex].score = [""];
+      } else if (updatedOptions[questionIndex].option.length < 4) {
+        updatedOptions[questionIndex].id.push(newId);
         updatedOptions[questionIndex].option = [
           ...updatedOptions[questionIndex].option,
           "",
@@ -201,7 +223,25 @@ export default function Edit() {
       };
     });
   };
+  const postData = async (updateData) => {
+    const surveyIdToUpdate = surveyId;
+    const response = await fetch(
+      `http://localhost:3001/surveys/${surveyIdToUpdate}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData),
+      }
+    );
 
+    if (response.ok) {
+      console.log("Survey updated successfully");
+    } else {
+      console.error("Failed to update survey");
+    }
+  };
   const handleCreateSurvey = async () => {
     try {
       const formattedSurveys = formData.Surveys.map((survey) => ({
@@ -220,7 +260,7 @@ export default function Edit() {
       }));
       const formattedOptions = formData.Options.reduce((acc, option) => {
         const optionsArray = option.option.map((opt, index) => ({
-          id: option.id,
+          id: option.id[index],
           question_id: option.question_id,
           option: opt,
           score: option.score[index],
@@ -235,25 +275,8 @@ export default function Edit() {
         Questions: formattedQuestions,
         Options: formattedOptions,
       };
-
-      const surveyIdToUpdate = surveyId;
-
-      const response = await fetch(
-        `http://localhost:3001/surveys/${surveyIdToUpdate}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updateData),
-        }
-      );
-
-      if (response.ok) {
-        console.log("Survey updated successfully");
-      } else {
-        console.error("Failed to update survey");
-      }
+      postData(updateData);
+      router.back();
     } catch (error) {
       console.error(error);
     }
@@ -349,6 +372,7 @@ export default function Edit() {
                     (option, optionIndex) => (
                       <div key={optionIndex}>
                         <p id={style.psm}>Option {optionIndex + 1}</p>
+                        {/* <p>{formData.Options[questionIndex].id[optionIndex]}</p> */}
                         <div className={style.flexr}>
                           <input
                             type="text"
@@ -443,7 +467,7 @@ export default function Edit() {
             Cancel
           </button>
           <button className={style.createbtn} onClick={handleCreateSurvey}>
-            Create
+            Edit
           </button>
         </div>
       </div>

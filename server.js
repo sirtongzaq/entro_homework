@@ -113,7 +113,6 @@ app.put("/surveys/:id", async (req, res) => {
       if (questionIndex !== -1) {
         Questions[questionIndex] = updatedQuestion;
       } else {
-        // If the question is not found, create a new entry
         Questions.push(updatedQuestion);
       }
     });
@@ -126,7 +125,6 @@ app.put("/surveys/:id", async (req, res) => {
       if (optionIndex !== -1) {
         Options[optionIndex] = updatedOption;
       } else {
-        // If the option is not found, create a new entry
         Options.push(updatedOption);
       }
     });

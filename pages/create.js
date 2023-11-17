@@ -45,7 +45,7 @@ export default function Create() {
     ],
     Options: [
       {
-        id: options.length + 1,
+        id: [options.length + 1, options.length + 2],
         question_id: questions.length + 1,
         option: ["", ""],
         score: ["", ""],
@@ -119,17 +119,25 @@ export default function Create() {
         updatedQuestions.length > 0
           ? updatedQuestions[updatedQuestions.length - 1].id + 1
           : 1;
-      const oid =
+
+      // Calculate the new oid based on the previous id values
+      const lastOid =
         updatedOptions.length > 0
-          ? updatedOptions[updatedOptions.length - 1].id + 1
-          : 1;
+          ? Math.max(...updatedOptions[updatedOptions.length - 1].id)
+          : 0;
+      const oid = lastOid + 1;
+
       updatedQuestions.push({
         id: qid,
         survey_id: prevData.Surveys[0].id,
         question: "",
       });
+
+      // Use Array.from to create an array of ids
+      const newIds = Array.from({ length: 2 }, (_, index) => oid + index);
+
       updatedOptions.push({
-        id: oid,
+        id: newIds,
         question_id: qid,
         option: ["", ""],
         score: ["", ""],
@@ -161,8 +169,11 @@ export default function Create() {
   const addOption = (questionIndex) => {
     setFormData((prevData) => {
       const updatedOptions = [...prevData.Options];
+      const lastId = Math.max(...updatedOptions[questionIndex].id);
+      const newId = lastId + 1;
 
       if (updatedOptions[questionIndex].option.length < 4) {
+        updatedOptions[questionIndex].id.push(newId);
         updatedOptions[questionIndex].option = [
           ...updatedOptions[questionIndex].option,
           "",
@@ -239,20 +250,25 @@ export default function Create() {
     const formattedOptions = [];
 
     formData.Options.forEach((option) => {
-      const optionsArray = option.option.map((opt, index) => ({
-        id: option.id,
-        question_id: option.question_id,
-        option: opt,
-        score: option.score[index],
-      }));
-      formattedOptions.push(...optionsArray);
+      const question = formData.Questions.find(
+        (q) => q.id === option.question_id
+      );
+      if (question) {
+        const optionsArray = option.option.map((opt, index) => ({
+          id: option.id[index],
+          question_id: question.id,
+          option: opt,
+          score: option.score[index],
+        }));
+        formattedOptions.push(...optionsArray);
+      }
     });
 
     // push data to json file
     postData({ formattedSurveys, formattedQuestions, formattedOptions });
     console.log({ Surveys: formattedSurveys });
     console.log({ Questions: formattedQuestions });
-    console.log({ Options: formattedOptions });
+    console.log({ Options: formData.Options });
     router.back();
   };
 

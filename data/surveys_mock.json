@@ -182,12 +182,12 @@
     },
     {
       "id": 21,
-      "Title": "mart",
-      "Description": "tong",
-      "point": 10,
+      "Title": "test",
+      "Description": "1",
+      "point": 1,
       "create_by": "Tongsu",
-      "created_at": "2023-11-16 16:16:23",
-      "update_at": "2023-11-16 16:16:23"
+      "created_at": "2023-11-17 12:00:07",
+      "update_at": "2023-11-17 12:00:07"
     }
   ],
   "Questions": [
@@ -394,12 +394,17 @@
     {
       "id": 41,
       "survey_id": 21,
-      "question": "qssss"
+      "question": "q1"
     },
     {
       "id": 42,
       "survey_id": 21,
-      "question": "wd"
+      "question": "q2"
+    },
+    {
+      "id": 43,
+      "survey_id": 21,
+      "question": "1"
     }
   ],
   "Options": [
@@ -646,20 +651,74 @@
     {
       "id": 41,
       "question_id": 41,
-      "option": "o2",
-      "score": 2
-    },
-    {
-      "id": 41,
-      "question_id": 41,
-      "option": "o2",
+      "option": "0",
       "score": 2
     },
     {
       "id": 42,
+      "question_id": 41,
+      "option": "0",
+      "score": 4
+    },
+    {
+      "id": 43,
+      "question_id": 41,
+      "option": "0",
+      "score": 6
+    },
+    {
+      "id": 44,
+      "question_id": 41,
+      "option": "0",
+      "score": 6
+    },
+    {
+      "id": 45,
       "question_id": 42,
-      "option": "11",
-      "score": 11
+      "option": "0",
+      "score": 1
+    },
+    {
+      "id": 46,
+      "question_id": 42,
+      "option": "2",
+      "score": 3
+    },
+    {
+      "id": 47,
+      "question_id": 42,
+      "option": "4",
+      "score": 5
+    },
+    {
+      "id": 48,
+      "question_id": 42,
+      "option": "6",
+      "score": 7
+    },
+    {
+      "id": 49,
+      "question_id": 43,
+      "option": "1",
+      "score": 1
+    },
+    {
+      "id": 50,
+      "question_id": 43,
+      "option": "1",
+      "score": 1
+    },
+    {
+      "id": 51,
+      "question_id": 43,
+      "option": "2",
+      "score": 2
+    },
+    {
+      "id": 52,
+      "question_id": 43,
+      "option": "4",
+      "score": 4
     }
   ]
 }
