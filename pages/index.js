@@ -30,72 +30,74 @@ export default function Home() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        {select === false ? (
-          <div className="dropdown">
-            <button id="custom-select" onClick={() => setSelect(!select)}>
-              <span>
-                <HiChevronDoubleDown />
-              </span>
-              Sort
-            </button>
-            {select && (
-              <div className="sort-options">
-                <button onClick={() => setSortData("newest")}>Newest</button>
-                <button onClick={() => setSortData("oldest")}>Oldest</button>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="dropdown">
-            <button id="custom-select2" onClick={() => setSelect(!select)}>
-              <span>
-                <HiChevronDoubleUp />
-              </span>
-              Close
-            </button>
-            {select && (
-              <div className="sort-options">
-                {sortData === "newest" ? (
-                  <>
-                    <button
-                      className="btn-active"
-                      onClick={() => setSortData("newest")}
-                    >
-                      Newest
-                    </button>
-                    <button
-                      className="sort-options-button"
-                      onClick={() => setSortData("oldest")}
-                    >
-                      Oldest
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      className="sort-options-button"
-                      onClick={() => setSortData("newest")}
-                    >
-                      Newest
-                    </button>
-                    <button
-                      className="btn-active"
-                      onClick={() => setSortData("oldest")}
-                    >
-                      Oldest
-                    </button>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        )}
-        <button id="create-button" onClick={navigateToCreate}>
-          <span>
-            <HiPlus />
-          </span>
-          Create Survey
-        </button>
+        <div className="search-bar2">
+          {select === false ? (
+            <div className="dropdown">
+              <button id="custom-select" onClick={() => setSelect(!select)}>
+                <span>
+                  <HiChevronDoubleDown />
+                </span>
+                Sort
+              </button>
+              {select && (
+                <div className="sort-options">
+                  <button onClick={() => setSortData("newest")}>Newest</button>
+                  <button onClick={() => setSortData("oldest")}>Oldest</button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="dropdown">
+              <button id="custom-select2" onClick={() => setSelect(!select)}>
+                <span>
+                  <HiChevronDoubleUp />
+                </span>
+                Close
+              </button>
+              {select && (
+                <div className="sort-options">
+                  {sortData === "newest" ? (
+                    <>
+                      <button
+                        className="btn-active"
+                        onClick={() => setSortData("newest")}
+                      >
+                        Newest
+                      </button>
+                      <button
+                        className="sort-options-button"
+                        onClick={() => setSortData("oldest")}
+                      >
+                        Oldest
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        className="sort-options-button"
+                        onClick={() => setSortData("newest")}
+                      >
+                        Newest
+                      </button>
+                      <button
+                        className="btn-active"
+                        onClick={() => setSortData("oldest")}
+                      >
+                        Oldest
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+          <button id="create-button" onClick={navigateToCreate}>
+            <span>
+              <HiPlus />
+            </span>
+            Create Survey
+          </button>
+        </div>
       </div>
       <p className="result">Results {filteredSurveys.length} items</p>
       <>

@@ -53,24 +53,25 @@ export default function View({
                           : "Error"}
                         {opt.option}
                       </div>
+                      <div className={style.btncontroller}>
+                        <button
+                          onClick={prevQuestion}
+                          disabled={currentQuestionIndex === 0}
+                        >
+                          <HiOutlineChevronLeft />
+                        </button>
+                        <button
+                          onClick={nextQuestion}
+                          disabled={
+                            currentQuestionIndex ===
+                            questionsForSurvey.length - 1
+                          }
+                        >
+                          <HiOutlineChevronRight />
+                        </button>
+                      </div>
                     </div>
                   ))}
-                <div className={style.btncontroller}>
-                  <button
-                    onClick={prevQuestion}
-                    disabled={currentQuestionIndex === 0}
-                  >
-                    <HiOutlineChevronLeft />
-                  </button>
-                  <button
-                    onClick={nextQuestion}
-                    disabled={
-                      currentQuestionIndex === questionsForSurvey.length - 1
-                    }
-                  >
-                    <HiOutlineChevronRight />
-                  </button>
-                </div>
               </div>
             ) : (
               <p>No more questions.</p>

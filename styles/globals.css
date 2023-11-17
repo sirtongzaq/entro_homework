@@ -15,11 +15,9 @@ html {
 }
 .card-text-2 {
   margin-left: 10px;
-  
 }
 .float-right {
   float: right;
-  
 }
 .icon-btn-view {
   text-align: center;
@@ -45,7 +43,6 @@ html {
   outline: none;
   cursor: pointer;
   margin-right: 10px;
-  
 }
 
 .icon-btn-delete {
@@ -59,7 +56,6 @@ html {
   outline: none;
   cursor: pointer;
   margin-right: 10px;
-  
 }
 
 .container {
@@ -78,10 +74,14 @@ html {
 
 .card-body {
   padding: 10px 20px;
-  
 }
 
 .search-bar {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.search-bar2 {
   padding: 20px;
   display: flex;
   flex-direction: row;
@@ -93,10 +93,9 @@ html {
   padding: 10px;
   border-radius: 10px;
   font-size: 16px;
-  width: 50%;
+  width: 100%;
   margin-right: 1%;
   outline: none;
-  
 }
 #search-input:focus {
   border: 1px solid #3b82f6;
@@ -115,10 +114,9 @@ html {
   background: #fff;
   color: #000;
   cursor: pointer;
-  
 }
 
-#custom-select2{
+#custom-select2 {
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -131,7 +129,6 @@ html {
   background: #3b82f6;
   color: #fff;
   cursor: pointer;
-  
 }
 
 #create-button {
@@ -146,12 +143,10 @@ html {
   cursor: pointer;
   outline: none;
   margin-left: auto;
-  
 }
 
 #search-button:hover {
   background-color: #3b82f6;
-  
 }
 
 .sort-options {
@@ -167,20 +162,7 @@ html {
   padding: 20px;
   font-size: 16px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  
 }
-
-
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 
 .sort-options-button {
   background-color: #fff;
@@ -191,7 +173,6 @@ html {
   width: 100%;
   outline: none;
   color: #000;
-  
 }
 
 .btn-active {
@@ -209,4 +190,393 @@ html {
   color: #6b7280;
   padding-left: 20px;
   font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .main {
+    background: #fff;
+    margin: 0px 40px 0px 40px;
+    border-radius: 10px;
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+  .card-text-2 {
+    margin-left: 10px;
+  }
+  .float-right {
+    float: right;
+  }
+  .icon-btn-view {
+    text-align: center;
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    background-color: #f3f4f6;
+    color: #6b7280;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .icon-btn-edit {
+    text-align: center;
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    background-color: #f3f4f6;
+    color: #3b82f6;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .icon-btn-delete {
+    text-align: center;
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    background-color: #f3f4f6;
+    color: #ec4899;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    flex-flow: column wrap;
+    margin-bottom: 10px;
+    margin-right: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+
+  .card-body {
+    padding: 10px 20px;
+  }
+
+  .search-bar {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .search-bar2 {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  #search-input {
+    box-sizing: border-box;
+    border: 1px solid #3b82f6;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100%;
+    margin-right: 1%;
+    outline: none;
+  }
+  #search-input:focus {
+    border: 1px solid #3b82f6;
+  }
+
+  #custom-select {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100px;
+    outline: none;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+  }
+
+  #custom-select2 {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100px;
+    outline: none;
+    background: #3b82f6;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  #create-button {
+    display: flex;
+    flex-direction: row;
+    background-color: #ec4899;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    margin-left: auto;
+  }
+
+  .sort-options-button {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+    color: #000;
+  }
+
+  .btn-active {
+    background-color: #3b82f6;
+    padding: 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+    color: #fff;
+  }
+
+  .result {
+    color: #6b7280;
+    padding-left: 20px;
+    font-weight: bold;
+  }
+  #search-button:hover {
+    background-color: #3b82f6;
+  }
+
+  .sort-options {
+    position: absolute;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  #search-input:focus {
+    border: 1px solid #3b82f6;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .main {
+    background: #fff;
+    margin: 0px 40px 0px 40px;
+    border-radius: 10px;
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+  .card-text-2 {
+    margin-left: 10px;
+  }
+  .float-right {
+    float: right;
+  }
+  .icon-btn-view {
+    text-align: center;
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    background-color: #f3f4f6;
+    color: #6b7280;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .icon-btn-edit {
+    text-align: center;
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    background-color: #f3f4f6;
+    color: #3b82f6;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .icon-btn-delete {
+    text-align: center;
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    background-color: #f3f4f6;
+    color: #ec4899;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    flex-flow: column wrap;
+    margin-bottom: 10px;
+    margin-right: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+
+  .card-body {
+    padding: 10px 20px;
+  }
+
+  .search-bar {
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+  }
+  #search-input {
+    box-sizing: border-box;
+    border: 1px solid #3b82f6;
+    padding: 10px;
+    margin-top: 40px;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-right: 1%;
+    outline: none;
+    height: 50%;
+    width: 50%;
+  }
+  .search-bar2 {
+    display: flex;
+    flex-direction: row;
+    margin-top: 19px;
+    width: 50%;
+  }
+
+  #custom-select {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100px;
+    outline: none;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+  }
+
+  #custom-select2 {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100px;
+    outline: none;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+  }
+
+  #create-button {
+    display: flex;
+    flex-direction: row;
+    background-color: #ec4899;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    margin-left: auto;
+  }
+
+  .sort-options-button {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+    color: #000;
+  }
+
+  .btn-active {
+    background-color: #3b82f6;
+    padding: 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+    color: #fff;
+  }
+
+  .result {
+    color: #6b7280;
+    padding-left: 20px;
+    font-weight: bold;
+  }
+
+  #search-button:hover {
+    background-color: #3b82f6;
+  }
+
+  .sort-options {
+    position: absolute;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  #search-input:focus {
+    border: 1px solid #3b82f6;
+  }
 }
