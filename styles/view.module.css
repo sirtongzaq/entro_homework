@@ -115,8 +115,8 @@
 .btncontroller {
   padding: 10px;
   margin-left: 10px;
-  position: fixed;
-  top: 62%;
+  position: relative;
+  top: 10%;
 }
 
 .btncontroller button {
@@ -244,8 +244,8 @@
   .btncontroller {
     padding: 10px;
     margin-left: 10px;
-    position: fixed;
-    top: 60%;
+    position: relative;
+    top: 10%;
   }
 
   .btncontroller button {
@@ -285,7 +285,7 @@
     font-size: 16px;
     animation: fadeIn 1s ease-in-out forwards;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    width: 200%;
+    width: 170%;
     height: 600px;
   }
   .cardsm {
@@ -373,8 +373,8 @@
   .btncontroller {
     padding: 10px;
     margin-left: 10px;
-    position: fixed;
-    top: 55%;
+    position: relative;
+    top: 10%;
   }
 
   .btncontroller button {
